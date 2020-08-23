@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,10 @@ export class AppComponent implements OnInit {
   title = 'Todos';
   todoList: any [] = [];
   todoTitle: string;
-  todoId = 0;
+
+  constructor(private modalservice: NgbModal) {
+
+  }
   ngOnInit() {
     this.todoTitle = '';
     this.todoList = [
@@ -27,9 +31,24 @@ export class AppComponent implements OnInit {
     // resets our todoTitle variable to an empty string
     this.todoTitle = '';
   }
-  deleteTodo(todo: any) {
+  async deleteTodo(todo: any) {
+    const modal = this.modalservice.open(ConfirmationModalComponent);
+    modal.componentInstance.modalInstance = modal;
+    const answer = await modal.result;
+
+      // a method to delete an item
+    this.deleteTodo(todo: any); {
     const index = this.todoList.findIndex(todoItem => todoItem === todo);
     this.todoList.splice(index, 1);
+    // tslint:disable-next-line: no-unused-expression
+    type as button; = 'button' (click) = this.deleteTodo(todo); class= 'btn btn-danger btn-sm' > Delete < /button>;
+  }
+
+    if (answer === 'yes') {
+      const index = this.todoList.findIndex(todoItem => todoItem === todo);
+      this.todoList.splice(index, 1);
+    }
+
   }
 
 }
